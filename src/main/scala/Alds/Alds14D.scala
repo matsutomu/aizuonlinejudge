@@ -4,6 +4,16 @@ import scala.io.StdIn
 
 object Alds14D extends App {
 
+  /*
+  @tailrec 
+  def loop[T](s: Int, e: Int, r: Array[T])(f: (Int, Array[T]) => Array[T]): Array[T] = {
+    if(s < e) {
+      f(s, r)
+      loop(s + 1, e, r)(f)
+    }
+  }*/
+  
+  
   val Array(n, k) = StdIn.readLine().trim.split(' ').map(_.toInt)
   val list = (0 until n).map{ _ => StdIn.readLine().trim.toLong}.toVector
     
