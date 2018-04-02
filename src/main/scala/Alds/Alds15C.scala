@@ -4,7 +4,7 @@ import scala.io.StdIn
 import scala.collection.mutable.ArrayBuffer
 
 /*
- ret
+ ref
  http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=2232735#1
  */
 object Alds15C extends App {
