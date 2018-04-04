@@ -1,5 +1,24 @@
 package Alds
 
+/*
+3
+3 1 2
+-> 1 [2] 3
+
+3
+1 3 2
+-> 1 [2] 3
+
+12
+13 19 9 5 12 8 7 4 21 2 6 11
+-> 9 5 8 7 4 2 6 [11] 21 13 19 12
+
+2
+2 1
+-> [1] 2
+
+ */
+
 import scala.io.StdIn
 
 object Alds16B extends App {
@@ -16,28 +35,35 @@ object Alds16B extends App {
   }
   
   def partition(arr: Array[Int], p: Int, r: Int): Int = {
-    var i = p
+    var i = p - 1
     (p until r).foreach{ j =>
-      while(arr(j) <= last){
-        swap(j, i)
-        //println(a.toList.mkString(" "))
+      if(arr(j) <= last){
         i += 1
+        swap(i, j)
+        //println(a.toList.mkString(" "))
       }
     }
-    //swap(r-1, i+1)
-    //i+1
-    i
+    swap(i+1, r)
+    //println("last:" + a.toList.mkString(" "))
+    i + 1
   }
   
-  val num = partition(a, 0, n)
-  val a1 = new Array[Int](num - 1)
-  Array.copy(a, 0, a1, 0, num - 1)
-  print(a1.mkString(" "))
-  print(s" [$last] ")
-  val a2 = new Array[Int](n - num)
-  Array.copy(a, num, a2, 0, n - num)
-  println(a2.mkString(" "))
+  val partitionIndex = partition(a, 0, n-1)
+  //println(s"num: $partitionIndex")
   
+  println(a.slice(0, partitionIndex).mkString(" ") +
+  " [" + a(partitionIndex) + "] " + 
+    a.slice(partitionIndex + 1, n).mkString(" "))
   
 }
 
+/*
+val a1 = new Array[Int](partitionIndex)
+Array.copy(a, 0, a1, 0, partitionIndex)
+print(a1.mkString(" ") + (if(a1.nonEmpty) " " else "" ))
+print(s"[$last]")
+val overIndex = partitionIndex + 1
+val a2 = new Array[Int](n - (overIndex))
+Array.copy(a, overIndex, a2, 0, n - (overIndex))
+println( (if(a2.nonEmpty) " " else "" ) + a2.mkString(" "))
+*/
