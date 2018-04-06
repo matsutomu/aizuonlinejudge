@@ -53,13 +53,13 @@ object Alds16C extends App {
   //println(s"num: $partitionIndex")
 
   final val infity = Int.MaxValue
-  def mergeSort(target: Array[Card]): Unit = {
+  def mergeSort(): Unit = {
     var compareCount = 0
 
     @inline def copyToArray(start: Int, end: Int): Array[Card] = {
       val alsize = end - start + 1
       val ar = new Array[Card](alsize)
-      Array.copy(target, start, ar, 0, alsize - 1)
+      Array.copy(ar2, start, ar, 0, alsize - 1)
       ar(alsize-1) = Card("", infity)
       ar
     }
@@ -77,14 +77,14 @@ object Alds16C extends App {
       (left until right).foreach{ k =>
         compareCount += 1
         if(al(i).number <= ar(j).number){
-          target(k) = al(i)
+          ar2(k) = al(i)
           i += 1
         } else {
-          target(k) = ar(j)
+          ar2(k) = ar(j)
           j += 1
         }
       }
-      //println("all:" + a.toList.mkString(" "))
+      //println("all:" + ar2.toList.mkString(" "))
     }
 
     def innerMergeSort(left: Int, right: Int): Unit ={
@@ -96,24 +96,26 @@ object Alds16C extends App {
       }
     }
 
+    innerMergeSort(0, ar2.length)
+
   }
 
 
 
   quickSort(ar1, 0, n - 1)
-  mergeSort(ar2)
+  mergeSort()
   
-  var same = false
-  (ar1 zip ar2).foreach{ p =>
-    if(p._1 == p._2){
-      same = true
-    }
+  var k = 0
+  var same = true
+  while(k < n && same) {
+    same = ar1(k) == ar2(k)
+    k += 1
   }
   
   println(if(same) "Stable" else "Not stable")
-  
   print(ar1.mkString(""))
-  
+  //print(ar2.mkString(""))
+
 }
 
 /*
