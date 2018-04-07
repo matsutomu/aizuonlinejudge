@@ -104,17 +104,16 @@ object Alds16C extends App {
 
   quickSort(ar1, 0, n - 1)
   mergeSort()
-  
+
   var k = 0
   var same = true
-  while(k < n && same) {
-    same = ar1(k) == ar2(k)
+  while(k < n) {
+    if(ar1(k) != ar2(k)) same = false 
     k += 1
   }
   
   println(if(same) "Stable" else "Not stable")
   print(ar1.mkString(""))
-  //print(ar2.mkString(""))
 
 }
 
