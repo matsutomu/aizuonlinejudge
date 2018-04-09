@@ -15,7 +15,7 @@ object Alds12B extends App {
         minj = if(a(j) < a(minj)) j else minj
       }
       val temp = a(minj)
-      a(minj) = a(i)
+    a(minj) = a(i)
       a(i) = temp
       changeCount = if(i != minj) changeCount + 1 else changeCount
     }
