@@ -5,56 +5,45 @@ import scala.io.StdIn
 
 object Alds17A extends App {
 
-  sealed abstract class Node{
-    val value: Int
-    var parent: Node
-    var left: Node
-    var right: Node
+  final val nil = -1
+  
+  case class Node(var parent: Int = -1,var left: Int = -1, var right: Int = -1){
+    
+    def typeInfo: String = if(parent == -1) {
+      "root"
+    } else if(left == nil ) {
+      "leaf"
+    } else {
+      "Internal node"
+    }
 
     override def toString: String = {
-      val p = if(parent == MyNil) -1 else parent.value
-      val typeInfo = if(p == -1) {
-        "root"
-      } else if(left == MyNil ) {
-        "leaf"
-      } else {
-        "Internal node"
-      }
-      
-      s"node $value: parent = $p, $typeInfo, "
+      s"parent = $parent, depth = X, $typeInfo, [child]"
     }
   }
   
-  case class NodeImpl(value: Int, var parent: Node, var left: Node, var right: Node) extends Node
-  
-  case object MyNil extends Node {
-    val value: Int = -1
-    var parent: Node = throw new RuntimeException
-    var left: Node = throw new RuntimeException
-    var right: Node = throw new RuntimeException
-  }
 
   val n = StdIn.readLine().trim.toInt
-  val input = Array.fill[Node](n)(MyNil)
+  val input = Array.fill[Node](n)(Node())
 
   (0 until n).foreach{ i =>
-    val cNode = NodeImpl(i, MyNil, MyNil, MyNil)
-    input(i) = if(input(i) == MyNil) cNode else input(i)
     val a = StdIn.readLine().trim.split(" ").map(_.toInt)
     val c = a.drop(2)
-    var before: Node = MyNil
+    var before: Int = -1
     c.zipWithIndex.foreach{ ci =>
-      val childNode = NodeImpl(ci._1, cNode, before, MyNil)
+      val childNode = Node(i, nil, nil)
       input(ci._1) = childNode
-      if(ci._2 == 0) input(i).left =  childNode
-      if(before != MyNil){
-        input(before.value).right = childNode
+      if(ci._2 == 0) input(i).left =  ci._1
+      if(before != nil){
+        input(before).right = ci._1
       }
-      before = childNode
+      before = ci._1
     }
   }
 
-  input.toList.foreach(p => println(p.toString))
+  (0 until n).foreach{ i =>
+    println(s"node $i: " + input(i).toString)
+  }
 
 }
 
