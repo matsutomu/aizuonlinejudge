@@ -5,7 +5,6 @@ import scala.io.StdIn
 
 object Itp15A extends App {
 
-  // presentation error !!
   var temp = Array(-1, -1)
   val buff = new ListBuffer[(Int, Int)]
   while(temp(0) != 0 && temp(1) != 0){
@@ -18,11 +17,37 @@ object Itp15A extends App {
       Array.fill(w)("#").mkString("")
     }.mkString(f"%n")
   }
-  print(result.mkString(f"%n") + f"%n")
+  println(result.mkString(f"%n%n"))
   println("")
 }
 
 /*
+1 1
+0 0
+
+#
+
+-------------------------
+3 4
+5 6
+2 2
+0 0
+
+####
+####
+####
+
+######
+######
+######
+######
+######
+
+##
+##
+
+-------------------
+
 // too late
 var hw = StdIn.readLine().split(' ').map(_.toInt)
 while(hw(0) != 0 && hw(1) != 0){
