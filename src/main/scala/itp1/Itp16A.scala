@@ -7,10 +7,12 @@ object Itp16A extends App {
   val n = StdIn.readLine().toInt
   var k = n - 1
   val out = Array.fill(n)("0")
+  
   StdIn.readLine().split(' ').foreach{ e =>
     out(k) = e
     k -= 1
   }
+  
   println(out.mkString(" "))
   
 }
