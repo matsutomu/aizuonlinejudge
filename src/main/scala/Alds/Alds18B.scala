@@ -3,6 +3,7 @@ package Alds
 import scala.collection.mutable.ListBuffer
 import scala.io.StdIn
 
+//todo too late
 object Alds18B extends App {
 
   val n = StdIn.readLine().trim.toInt
