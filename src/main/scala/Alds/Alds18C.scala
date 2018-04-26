@@ -19,7 +19,9 @@ object Alds18C extends App {
       case Array("insert", key) => insert(Node(key.toInt, null, null, null))
       case Array("find"  , key) => 
         buff += (if(find(root, key.toInt) == null) f"no%n" else f"yes%n")
-      case Array("delete"  , key) => delete(find(root, key.toInt))
+      case Array("delete"  , key) => 
+        println(key.toInt)
+        delete(find(root, key.toInt))
       case _ => 
         // print
         inorder(root)
@@ -77,7 +79,7 @@ object Alds18C extends App {
   }
 
   def delete(z: Node): Unit = {
-    var temp = if(z.left != null || z.right != null) z else {
+    var temp = if(z.left == null || z.right == null) z else {
       getSuccessor(z)
     }
     
