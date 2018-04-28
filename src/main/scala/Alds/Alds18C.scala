@@ -8,7 +8,7 @@ object Alds18C extends App {
   val n = StdIn.readLine().trim.toInt
   var root: Node = _
   val buff = ListBuffer.empty[String]
-  case class Node(key: Int, var parent: Node, var left: Node, var right: Node){
+  case class Node(var key: Int, var parent: Node, var left: Node, var right: Node){
     private def getDefaultKey(p: Node) = if(p == null) -1 else p.key
     override def toString: String = s"Node($key, ${getDefaultKey(parent)} ${getDefaultKey(left)} ${getDefaultKey(right)})"
   }
@@ -20,8 +20,9 @@ object Alds18C extends App {
       case Array("find"  , key) => 
         buff += (if(find(root, key.toInt) == null) f"no%n" else f"yes%n")
       case Array("delete"  , key) => 
-        println(key.toInt)
-        delete(find(root, key.toInt))
+        //println(key.toInt)
+        val target = find(root, key.toInt)
+        if(target != null) delete(target)
       case _ => 
         // print
         inorder(root)
@@ -95,10 +96,16 @@ object Alds18C extends App {
     
     if(temp.parent == null) {
       root = x
-    } else if(temp == temp.parent.left){
-      temp.parent.left = x
     } else {
-      temp.parent.right = x
+      if(temp == temp.parent.left){
+        temp.parent.left = x
+      } else {
+        temp.parent.right = x
+      }
+    }
+    
+    if(temp != z){
+      z.key = temp.key
     }
 
   }
@@ -129,6 +136,3 @@ object Alds18C extends App {
   print(buff.mkString(""))
 }
 
-/*
- 
- */
