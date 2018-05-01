@@ -1,5 +1,6 @@
 package Alds
 
+import scala.collection.mutable.ListBuffer
 import scala.io.StdIn
 
 object Alds19C extends App {
@@ -12,16 +13,16 @@ object Alds19C extends App {
     h += 1
     a(h) = Int.MinValue
     heapIncreaseKey(a, h, key)
+    //println("ins :" + a.slice(0,h+1).toList.mkString(" "))
+
   }
   
   private def heapIncreaseKey(heap: Array[Int], i: Int, key: Int): Unit = {
     heap(i) = key
     var idx = i
-    var temp: Int = heap(parent(i))
-    while(idx > 1 && temp < a(i)){
-      swap(heap, i, parent(i))
-      idx = parent(i)
-      temp = heap(parent(i))
+    while(idx > 1 && heap(idx/2) < heap(idx)){
+      swap(heap, idx, idx/2)
+      idx = idx/2
     }
   }
   
@@ -36,23 +37,64 @@ object Alds19C extends App {
     target(from) = temp
   }
 
-//  def maxHeapify(a: Array[Int], i: Int): Unit = {
-//    val n = a.length
-//    val p = parent(i)
-//    val l = left(i)
-//    val r = right(i)
-//
-//    var largest = if(l <= n && a(l) > a(i)) l else i
-//    largest = if(r <= n && a(r) > a(largest)) r else largest
-//    
-//    if(i != largest){
-//      swap(a, i, largest)
-//      maxHeapify(a, largest)
-//    }
-//  }
-//  
+  def maxHeapify(heap: Array[Int], i: Int): Unit = {
+    //val n = heap.length
+    val p = parent(i)
+    val l = left(i)
+    val r = right(i)
 
+    var largest = if(l <= h && heap(l) > heap(i)) l else i
+    largest = if(r <= h && heap(r) > heap(largest)) r else largest
 
-  println(" " + a.drop(1).mkString(" "))
+    if(i != largest){
+      swap(heap, i, largest)
+      maxHeapify(heap, largest)
+    }
+  }
+
+  def heapExtractMax(heap: Array[Int]): Int = {
+    // println("ext :" + heap.slice(0,h+1).toList.mkString(" "))
+    val max = heap(1)
+    heap(1) = heap(h)
+    h -= 1
+    maxHeapify(heap, 1)
+    max
+  }
+
+  val buff = ListBuffer.empty[Int]
+  
+  var cmd = ""
+  while(cmd != "end"){
+    cmd = StdIn.readLine()
+    cmd.split(' ') match {
+      case Array("insert", key) => insert(key.toInt)
+      case Array("extract") => 
+        buff += heapExtractMax(a)
+      case _ =>
+    }
+  }
+
+  buff.foreach(println)
 }
 
+/*
+insert 8
+insert 7
+insert 2
+extract
+insert 19
+insert 10
+extract
+extract
+insert 8
+extract
+extract
+insert 3
+insert 4
+insert 1
+extract
+extract
+extract
+end
+
+ */
