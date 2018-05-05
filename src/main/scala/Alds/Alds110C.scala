@@ -2,7 +2,7 @@ package Alds
 
 import scala.io.StdIn
 
-object Alds111C extends App {
+object Alds110C extends App {
 
   private val N = 1000
 

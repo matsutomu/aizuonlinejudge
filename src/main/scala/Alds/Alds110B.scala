@@ -2,7 +2,7 @@ package Alds
 
 import scala.io.StdIn
 
-object Alds111B extends App {
+object Alds110B extends App {
 
   private val n = StdIn.readLine().toInt
   val memo = Array.fill(n+1, n+1)(0)
