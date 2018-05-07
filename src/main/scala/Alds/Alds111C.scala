@@ -13,7 +13,7 @@ object Alds111C extends App {
       result(a(0) - 1)(a(2 + k) - 1) = 1
     }
   }
-  
+
   //(0 until n).foreach(i => println((i+1) + ": " +result(i).mkString(" ")))
   val color = Array.ofDim[Int](n) // 0: ini, 1: current, 9: finish
   val distance = Array.fill(n)(-1)
@@ -26,11 +26,11 @@ object Alds111C extends App {
   color(0) = GRAY
   queue += 0 // start node
   distance(0) = 0
-  while(queue.nonEmpty){
+  while (queue.nonEmpty) {
     val u = queue.head
     queue = queue.drop(1)
     (0 until n).foreach { v =>
-      if(result(u)(v) == 1 && color(v) == WHITE){
+      if (result(u)(v) == 1 && color(v) == WHITE) {
         color(v) = GRAY
         distance(v) = distance(u) + 1
         queue += v
@@ -38,11 +38,11 @@ object Alds111C extends App {
     }
     color(u) = BLACK
   }
-    
 
-  val r = (0 until n).map(v => s"${v+1} ${distance(v)}")
-  
+
+  val r = (0 until n).map(v => s"${v + 1} ${distance(v)}")
+
   println(r.mkString(f"%n"))
-  
+
 }
 

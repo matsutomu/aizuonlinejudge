@@ -12,7 +12,7 @@ object Alds111B extends App {
       result(a(0) - 1)(a(2 + k) - 1) = 1
     }
   }
-  
+
   //(0 until n).foreach(i => println((i+1) + ": " +result(i).mkString(" ")))
   val edges = Array.ofDim[Int](n) // 0: ini, 1: current, 9: finish
   val timeS = Array.ofDim[Int](n)
@@ -28,7 +28,7 @@ object Alds111B extends App {
     time += 1
     timeS(u) = time
     (0 until n).foreach { v =>
-      if(result(u)(v) == 1 && edges(v) == WHITE){
+      if (result(u)(v) == 1 && edges(v) == WHITE) {
         depthFirstSearch(v)
       }
     }
@@ -37,10 +37,10 @@ object Alds111B extends App {
     timeE(u) = time
   }
 
-  (0 until n).foreach( v => if(edges(v) == WHITE)depthFirstSearch(v))
-  val r = (0 until n).map(v => s"${v+1} ${timeS(v)} ${timeE(v)}")
-  
+  (0 until n).foreach(v => if (edges(v) == WHITE) depthFirstSearch(v))
+  val r = (0 until n).map(v => s"${v + 1} ${timeS(v)} ${timeE(v)}")
+
   println(r.mkString(f"%n"))
-  
+
 }
 
