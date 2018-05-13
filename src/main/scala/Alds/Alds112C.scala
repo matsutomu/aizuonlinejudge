@@ -34,20 +34,20 @@ object Alds112C extends App {
     //color(s) = GRAY
 
     while (pq.nonEmpty) {
-      
+
       val f = pq.dequeue() // (cost, index)
       val u = f._2 // index
-      
+
       //color(u) = BLACK
-      if (distance(u) >= -1 * f._1) { 
-        M(u).foreach{ v =>
+      if (distance(u) >= -1 * f._1) {
+        M(u).foreach { v =>
           //if (color(v._1) != BLACK) {
-            if (distance(u) + v._2 < distance(v._1)) {
-              distance(v._1) = distance(u) + v._2
-              //color(v._1) = GRAY
-              pq.enqueue((-1 * v._2, v._1)) // (cost , index)
-            }
-         // }
+          if (distance(u) + v._2 < distance(v._1)) {
+            distance(v._1) = distance(u) + v._2
+            //color(v._1) = GRAY
+            pq.enqueue((-1 * v._2, v._1)) // (cost , index)
+          }
+          // }
         }
       }
     }

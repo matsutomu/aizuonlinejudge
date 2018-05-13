@@ -9,10 +9,10 @@ object Alds110A extends App {
   a(0) = 1
   a(1) = 1
 
-  (2 to n).foreach{ i =>
-    a(i) = a(i-1) + a(i-2)
+  (2 to n).foreach { i =>
+    a(i) = a(i - 1) + a(i - 2)
   }
-  
+
   println(a(n))
 }
 
