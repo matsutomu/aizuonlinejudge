@@ -12,6 +12,8 @@ object Dsl2C extends App {
 
   val NIL = -1
   var np = 0
+  var points = Array.fill[Point](1000000)(Point(0, 0, 0))
+  val tree = Array.fill[Node](1000000)(Node(0))
 
 
   def makeKDTree(left: Int, right: Int, depth: Int): Int = {
@@ -22,9 +24,9 @@ object Dsl2C extends App {
       val t = np
       np += 1
       if (depth % 2 == 0) {
-        points.sortWith((p1, p2) => p1.x < p2.x)
+        points.slice(left, right).sortWith((p1, p2) => p1.x < p2.x).copyToArray(points, left, right - left)
       } else {
-        points.sortWith((p1, p2) => p1.y < p2.y)
+        points.slice(left, right).sortWith((p1, p2) => p1.y < p2.y).copyToArray(points, left, right - left)
       }
 
       tree(t).location = mid
@@ -64,8 +66,6 @@ object Dsl2C extends App {
   }
 
   val n = StdIn.readLine().toInt
-  val points = Array.fill[Point](1000000)(Point(0, 0, 0))
-  val tree = Array.fill[Node](1000000)(Node(0))
 
   (0 until n).foreach { i =>
     val Array(x, y) = StdIn.readLine().split(' ').map(_.toInt)
@@ -88,6 +88,4 @@ object Dsl2C extends App {
 
   }
 
-
 }
-
