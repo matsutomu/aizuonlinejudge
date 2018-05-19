@@ -1,5 +1,6 @@
 package Cgl
 
+
 import scala.io.StdIn
 
 object Cgl2A {
@@ -23,9 +24,9 @@ object Cgl2A {
 
     def <(p: Point): Boolean = this.x < p.x && this.y < p.y
 
-    private val EPS = 1 ^ (-10)
 
-    def ==(p: Point): Boolean = scala.math.abs(this.x - p.x) < EPS && scala.math.abs(this.y - p.y) < EPS
+    def ==(p: Point): Boolean = scala.math.abs(this.x - p.x) < Cgl0A.EPS &&
+      scala.math.abs(this.y - p.y) < Cgl0A.EPS
 
   }
 
@@ -34,7 +35,8 @@ object Cgl2A {
   type GeoVector = Point
 
   object Cgl0A {
-
+    val EPS: Double = scala.math.pow(10,-10)
+    
     // 内積
     def dot(a: Point, b: Point): Double = a.x * b.x + a.y * b.y
 
