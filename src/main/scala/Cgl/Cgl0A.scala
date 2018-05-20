@@ -12,7 +12,7 @@ object Cgl0A {
     def *(a: Double): Point = Point(this.x * a, this.y * a)
 
     def /(a: Double): Point = {
-      assert(a == 0)
+      assert(a != 0)
       Point(this.x / a, this.y / a)
     }
 

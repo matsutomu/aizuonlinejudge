@@ -1,9 +1,8 @@
 package Cgl
 
-
 import scala.io.StdIn
 
-object Cgl2C {
+object Cgl7D {
 
   case class Point(x: Double = 0, y: Double = 0) {
 
@@ -30,6 +29,8 @@ object Cgl2C {
 
 
   }
+  
+  case class Circle(center: Point, r: Int)
 
   case class Segment(p1: Point, p2: Point)
 
@@ -132,19 +133,27 @@ object Cgl2C {
       val t = d1 / (d1 + d2)
       s1.p1 + (s1.p2 - s1.p1) * t
     }
-
+    
+    def getCrossPoint(c: Circle, l: Line): Array[Point] = {
+      val pr: GeoVector = project(Segment(l.p1, l.p2), c.center)
+      val e: GeoVector = (l.p2 - l.p1) / (l.p2 - l.p1).abs()
+      val base: Double = scala.math.sqrt(c.r*c.r - (pr - c.center).norm())
+      Array(pr + e*base, pr - e * base).sortBy(p => (p.x, p.y))
+    }
   }
 
 
   def main(args: Array[String]): Unit = {
+    val c = StdIn.readLine().split(' ').map(_.toInt)
+    val circle = Circle( Point(c(0), c(1)), c(2))
     val q = StdIn.readLine().toInt
     (0 until q).foreach { i =>
       val a = StdIn.readLine().split(' ').map(_.toDouble)
-      val s1 = Segment(Point(a(0), a(1)),Point(a(2), a(3)))
-      val s2 = Segment(Point(a(4), a(5)),Point(a(6), a(7)))
-
-      val r = Cgl0A.getCrossPoint(s1, s2)
-      println(f"${r.x}%.10f ${r.y}%.10f")      
+      val l = Line(Point(a(0), a(1)),Point(a(2), a(3)))
+      val r = Cgl0A.getCrossPoint(circle, l)
+      
+      println(f"${r(0).x}%.10f ${r(0).y}%.10f ${r(1).x}%.10f ${r(1).y}%.10f")
+      
     }
 
   }
