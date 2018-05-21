@@ -1,5 +1,7 @@
 package Cgl
 
+import Cgl.Cgl7D.Point
+
 
 object Cgl0A {
 
@@ -27,6 +29,8 @@ object Cgl0A {
     def ==(p: Point): Boolean = scala.math.abs(this.x - p.x) < Cgl0A.EPS &&
       scala.math.abs(this.y - p.y) < Cgl0A.EPS
   }
+
+  case class Circle(center: Point, r: Int)
 
   case class Segment(p1: Point, p2: Point)
 
@@ -129,6 +133,66 @@ object Cgl0A {
     val d2 = scala.math.abs(cross(base, s1.p2 - s2.p1))
     val t = d1 / (d1 + d2)
     s1.p1 + (s1.p2 - s1.p1) * t
+  }
+
+
+  def getCrossPoint(c: Circle, l: Line): Array[Point] = {
+    val pr: GeoVector = project(Segment(l.p1, l.p2), c.center)
+    val e: GeoVector = (l.p2 - l.p1) / (l.p2 - l.p1).abs()
+    val base: Double = scala.math.sqrt(c.r*c.r - (pr - c.center).norm())
+    Array(pr + e*base, pr - e * base).sortBy(p => (p.x, p.y))
+  }
+
+  // arq tangent
+  def arg(p: GeoVector): Double = scala.math.atan2(p.y, p.x)
+
+  // 
+  def polar(a: Double, r: Double): GeoVector = {
+    // x * 角度ラジアン
+    Point(scala.math.cos(r) * a, scala.math.sin(r) * a)
+  }
+
+  def getCrossPoint(c1: Circle, c2: Circle): Array[Point] = {
+    val d: Double = (c1.center - c2.center).abs()
+    val cos: Double = (c1.r * c1.r + d * d - c2.r * c2.r) / (2 * c1.r * d)
+    val a: Double = scala.math.acos(cos) // radian
+
+    val t: Double = arg(c2.center - c1.center) // radian
+    Array(c1.center + polar(c1.r, t + a),
+      c1.center + polar(c1.r, t - a)).sortBy(p => (p.x, p.y))
+
+  }
+
+  val IN: Int = 2
+  val ON: Int = 1
+  val OUT: Int = 0
+
+  def contains(g: IndexedSeq[Point], target: Point): Int = {
+    val n = g.size
+    var i = 0
+    var onJudge = false
+    var parity = false
+    while(!onJudge && i < n){
+      var a: Point = g(i) - target
+      var b: Point = g((i+1)%n) - target
+      if(cross(a, b).abs < EPS && dot(a, b) < EPS){
+        onJudge = true
+      } else {
+        if(a.y > b.y){
+          val temp = a
+          a = b
+          b = temp
+        }
+        parity = if(a.y < EPS && EPS < b.y && cross(a, b) > EPS) !parity else parity
+      }
+      i += 1
+    }
+
+    if(onJudge) {
+      ON
+    } else {
+      if(parity) IN else OUT
+    }
   }
 
 }
