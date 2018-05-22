@@ -1,6 +1,10 @@
 package Cgl
 
+import Cgl.Cgl4A.Cgl0A.ccw
+import Cgl.Cgl4A.Point
 import Cgl.Cgl7D.Point
+
+import scala.collection.mutable.ArrayBuffer
 
 
 object Cgl0A {
@@ -193,6 +197,50 @@ object Cgl0A {
     } else {
       if(parity) IN else OUT
     }
+  }
+
+  def andrewScan(s: Array[Point]): Array[Point] = {
+    val u: ArrayBuffer[Point] = ArrayBuffer.empty[Point]
+    val l: ArrayBuffer[Point] = ArrayBuffer.empty[Point]
+
+    val sSize = s.length
+    if (sSize < 3) {
+      s
+    } else {
+      val temp = s.sortBy(p => (p.y, p.x))
+      u.append(temp(0))
+      u.append(temp(1))
+
+      l.append(temp(sSize - 1))
+      l.append(temp(sSize - 2))
+
+      (2 until sSize).foreach { i =>
+        var n = u.size
+        while (n >= 2 && ccw(u(n - 2), u(n - 1), temp(i)) == COUNTER_CLOCKWISE) {
+          u.remove(n - 1)
+          n -= 1
+        }
+        u.append(temp(i))
+      }
+
+      (sSize - 3 to 0 by -1).foreach { i =>
+        var n = l.size
+        while (n >= 2 && ccw(l(n - 2), l(n - 1), temp(i)) == COUNTER_CLOCKWISE) {
+          l.remove(n - 1)
+          n -= 1
+        }
+        l.append(temp(i))
+      }
+
+      //println("U: " + u.toList)
+      //println("L: " + l.toList)
+
+      val r: ArrayBuffer[Point] = l.reverse
+      u.reverse.slice(1, u.size - 1).foreach( e => r.append(e))
+
+      r.toArray
+    }
+
   }
 
 }
