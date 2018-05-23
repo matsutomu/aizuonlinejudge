@@ -1,8 +1,5 @@
 package Cgl
 
-import Cgl.Cgl4A.Cgl0A.ccw
-import Cgl.Cgl4A.Point
-import Cgl.Cgl7D.Point
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -243,4 +240,60 @@ object Cgl0A {
 
   }
 
+  def manhattanIntersection(s: Array[Segment]): Int = {
+
+    val BOTTOM = 0
+    val LEFT = 1
+    val RIGHT = 2
+    val TOP = 3
+
+    case class EndPoint(p: Point, id: Int, place: Int)
+
+    var ep: ArrayBuffer[EndPoint] = ArrayBuffer.empty[EndPoint]
+
+    def swapJudge(p1: Point, p2: Point): Boolean = {
+      p1.y == p2.y && p1.x > p2.x || p1.y > p2.y
+    }
+
+
+    val n = s.length
+    (0 until n).foreach { i =>
+      s(i) = if (swapJudge(s(i).p1, s(i).p2)) {
+        Segment(s(i).p2, s(i).p1)
+      } else {
+        s(i)
+      }
+
+      if (s(i).p1.y == s(i).p2.y) {
+        ep.append(EndPoint(s(i).p1, i, LEFT))
+        ep.append(EndPoint(s(i).p2, i, RIGHT))
+      } else {
+        ep.append(EndPoint(s(i).p1, i, BOTTOM))
+        ep.append(EndPoint(s(i).p2, i, TOP))
+      }
+    }
+
+    ep = ep.sortBy(e => (e.p.y, e.place))
+
+    val trset: scala.collection.mutable.TreeSet[Double] = scala.collection.mutable.TreeSet.empty[Double]
+
+    //println(ep.toList)
+
+    ep.foldLeft(0) { (acc, e) =>
+      //println(trset.toList)
+      if (e.place == TOP) {
+        trset.remove(e.p.x)
+        acc
+        
+      } else if (e.place == BOTTOM) {
+        trset.add(e.p.x)
+        acc
+      } else if (e.place == LEFT) {
+        val r = trset.range(s(e.id).p1.x-0.1, s(e.id).p2.x+0.1)
+        //println("match:" + r.toList)
+
+        acc + r.size
+      } else acc
+    }
+  }
 }
