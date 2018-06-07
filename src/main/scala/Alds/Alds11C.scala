@@ -5,27 +5,26 @@ import scala.io.StdIn
 object Alds11C extends App {
 
   val n = StdIn.readLine().trim.toInt
-  val lst: Array[Int] = (0 until n).map{ _ =>
-    StdIn.readLine().trim.toInt
-  }.sorted.toArray
   
-  var lsize = lst.size
-
-  var evl = 2
-  var max = lst.last
-  while(evl < scala.math.sqrt(max)){
-    (0 until lsize).foreach{ i =>
-      val tmp = lst(i)
-      if(tmp != evl){
-        lst(i) = if(tmp % evl == 0) 0 else tmp
-      }
+  def isPrime(x: Int): Boolean = {
+    if (x == 2) {
+      true
     }
-    evl += 1
+    else if (x < 2 || x % 2 == 0) {
+      false
+    } else {
+      !(3 to scala.math.sqrt(x).toInt by 2).exists(i => x % i == 0)
+    }
   }
 
-  println(lst.filter(p => p != 0).size)
-  
+  println((0 until n).foldLeft(0){ (acc, _) =>
+    val x = StdIn.readLine().trim.toInt
+    acc + (if(isPrime(x)) 1 else 0)
+  })
+
 }
+
+
 
 /*
 http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=1549480#1
