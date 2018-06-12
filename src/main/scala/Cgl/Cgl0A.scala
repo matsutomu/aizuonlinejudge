@@ -26,7 +26,6 @@ object Cgl0A {
     def <(p: Point): Boolean = this.x < p.x && this.y < p.y
 
 
-
     def ==(p: Point): Boolean = scala.math.abs(this.x - p.x) < Cgl0A.EPS &&
       scala.math.abs(this.y - p.y) < Cgl0A.EPS
   }
@@ -36,10 +35,10 @@ object Cgl0A {
   case class Segment(p1: Point, p2: Point)
 
   case class Line(p1: Point, p2: Point)
-  
+
   type GeoVector = Point
 
-  val EPS: Double = scala.math.pow(10,-10)
+  val EPS: Double = scala.math.pow(10, -10)
 
   // 内積
   def dot(a: Point, b: Point): Double = a.x * b.x + a.y * b.y
@@ -140,8 +139,8 @@ object Cgl0A {
   def getCrossPoint(c: Circle, l: Line): Array[Point] = {
     val pr: GeoVector = project(Segment(l.p1, l.p2), c.center)
     val e: GeoVector = (l.p2 - l.p1) / (l.p2 - l.p1).abs()
-    val base: Double = scala.math.sqrt(c.r*c.r - (pr - c.center).norm())
-    Array(pr + e*base, pr - e * base).sortBy(p => (p.x, p.y))
+    val base: Double = scala.math.sqrt(c.r * c.r - (pr - c.center).norm())
+    Array(pr + e * base, pr - e * base).sortBy(p => (p.x, p.y))
   }
 
   // arq tangent
@@ -173,26 +172,26 @@ object Cgl0A {
     var i = 0
     var onJudge = false
     var parity = false
-    while(!onJudge && i < n){
+    while (!onJudge && i < n) {
       var a: Point = g(i) - target
-      var b: Point = g((i+1)%n) - target
-      if(cross(a, b).abs < EPS && dot(a, b) < EPS){
+      var b: Point = g((i + 1) % n) - target
+      if (cross(a, b).abs < EPS && dot(a, b) < EPS) {
         onJudge = true
       } else {
-        if(a.y > b.y){
+        if (a.y > b.y) {
           val temp = a
           a = b
           b = temp
         }
-        parity = if(a.y < EPS && EPS < b.y && cross(a, b) > EPS) !parity else parity
+        parity = if (a.y < EPS && EPS < b.y && cross(a, b) > EPS) !parity else parity
       }
       i += 1
     }
 
-    if(onJudge) {
+    if (onJudge) {
       ON
     } else {
-      if(parity) IN else OUT
+      if (parity) IN else OUT
     }
   }
 
@@ -233,7 +232,7 @@ object Cgl0A {
       //println("L: " + l.toList)
 
       val r: ArrayBuffer[Point] = l.reverse
-      u.reverse.slice(1, u.size - 1).foreach( e => r.append(e))
+      u.reverse.slice(1, u.size - 1).foreach(e => r.append(e))
 
       r.toArray
     }
@@ -284,12 +283,12 @@ object Cgl0A {
       if (e.place == TOP) {
         trset.remove(e.p.x)
         acc
-        
+
       } else if (e.place == BOTTOM) {
         trset.add(e.p.x)
         acc
       } else if (e.place == LEFT) {
-        val r = trset.range(s(e.id).p1.x-0.1, s(e.id).p2.x+0.1)
+        val r = trset.range(s(e.id).p1.x - 0.1, s(e.id).p2.x + 0.1)
         //println("match:" + r.toList)
 
         acc + r.size
