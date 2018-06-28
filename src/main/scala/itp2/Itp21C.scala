@@ -11,29 +11,35 @@ object Itp21C extends App {
   def dump(): Unit = {
     println(s"buff: $buff")
     println(s"cursor: $cursor")
+    println("---------------------")
+
+    
   }
-  
-  
+
+
   def insert(x: Int): Unit = {
     if (cursor < 0) {
       buff.append(x)
       cursor = 0
     }
+    else if (cursor == buff.size) {
+      buff.append(x)
+    }
     else {
       buff.insert(cursor, x)
       //cursor += 1
     }
-    
-    println(s"insert $x");dump()
+
+    //println(s"insert $x");dump()
   }
 
   def move(d: Int): Unit = {
     cursor = cursor + d
     cursor = if (cursor < 0) 0
-    else if (buff.size <= cursor) buff.size - 1
+    else if (buff.size < cursor) buff.size - 1
     else cursor
 
-    println(s"move $d");dump()
+    //println(s"move $d");dump()
   }
 
   val q = StdIn.readLine().trim.toInt
@@ -44,9 +50,12 @@ object Itp21C extends App {
     cmd match {
       case 0 => insert(x)
       case 1 => move(x)
-      case 2 => 
-        buff.remove(cursor)
-        cursor = if (buff.size <= cursor) buff.size - 1 else cursor
+      case 2 =>
+        if(0 <= cursor) buff.remove(cursor)
+          //println(s"remove $cursor");dump()
+
+        cursor = if(buff.isEmpty) 0 else if (buff.size < cursor) buff.size - 1 else cursor
+
     }
 
   }
