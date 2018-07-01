@@ -4,9 +4,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.io.StdIn
 
 object Itp21A extends App {
-
-
-
+  
   val a = ArrayBuffer.empty[Int]
   def pushBuck(x: Int): Unit = a.append(x)
   def popBuck(): Unit = if(a.nonEmpty) a.remove(a.size - 1)
